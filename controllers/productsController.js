@@ -3,15 +3,28 @@ const Product = require('../models/product')
 exports.postProducts=(req, res, next) => {
     const p1=new Product(req.body.title)
     p1.save()
-    res.status(200).json({message:'post succu hai'})
+    .then(()=>{
+      res.status(200).json({message:'post succu hai'})
+      
+    })
+    .catch((err)=>{console.log(err)})
+  }
+
+  exports.deleteItem=(req,res,next)=>{
+    const products=Product.deleteItem(req.params.id)
+    .then(([rows,field])=>{
+      res.status(200).json({list:rows})
+    })
+    .catch((err)=>{console.log(err)})
   }
 
 
   exports.getAllProducts=(req, res, next) => {
-    const products=Product.fetchAllProducts((products)=>{
-     res.status(200).json({list:products})
-
+    const products=Product.fetchAllProducts()
+    .then(([rows,field])=>{
+      res.status(200).json({list:rows})
     })
+    .catch((err)=>{console.log(err)})
    
   }
 

@@ -10,7 +10,7 @@ const pc=require('../controllers/productsController')
 
 // /admin/add-product => POST
 router.post('/add-product', pc.postProducts);
-
+router.delete('/:id',pc.deleteItem)
 
 
 exports.routes = router;
