@@ -1,30 +1,42 @@
 const Product = require('../models/product')
+const User = require('../models/user')
 
 exports.postProducts=(req, res, next) => {
-    const p1=new Product(req.body.title)
-    p1.save()
-    .then(()=>{
-      res.status(200).json({message:'post succu hai'})
-      
+  
+    Product.create({
+      title:req.body.title,
+      userId:req.body.userId
+    }).then(()=>{
+      res.json({'payload':req.body})
     })
-    .catch((err)=>{console.log(err)})
+  }
+
+  exports.addUsers=(req,res,next)=>{
+    User.create({
+          username:req.body.username,
+          email:req.body.email,
+          mobileNum:req.body.mobileNumber
+    })
   }
 
   exports.deleteItem=(req,res,next)=>{
-    const products=Product.deleteItem(req.params.id)
-    .then(([rows,field])=>{
-      res.status(200).json({list:rows})
+    
+    Product.destroy({
+      where:{
+        id:req.params.id
+      }
+    }).then((delRes)=>{
+      res.status(200).json({list:delRes})
     })
-    .catch((err)=>{console.log(err)})
   }
 
 
   exports.getAllProducts=(req, res, next) => {
-    const products=Product.fetchAllProducts()
-    .then(([rows,field])=>{
-      res.status(200).json({list:rows})
+    
+    Product.findAll()
+    .then((products)=>{
+      res.json({'list':products})
     })
-    .catch((err)=>{console.log(err)})
    
   }
 
